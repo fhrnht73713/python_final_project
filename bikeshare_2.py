@@ -41,6 +41,26 @@ def get_filters():
             print('Please choose a valid day.')
 
     print('-'*40)
+    print()
+    
+    while True:
+        if month != 'all':
+            if day != 'all':
+                print(f'You chose to analyze {day.title()}s in {month.title()} for {city.title()}: ')
+            else:
+                print(f'You chose to analyze all days in {month.title()} for {city.title()}: ')
+        else:
+            if day != 'all':
+                print(f'You chose to analyze {day.title()}s  in all months for {city.title()}: ')
+            else:
+                print(f'You chose to analyze all days in all months for {city.title()}: ')
+
+        confirm = input('Is this correct? (Type "yes" or "no"): ')
+        if confirm.lower() == 'yes':
+            break
+        else:
+            print('Let\'s try again.')
+
     return city, month, day
 
 
@@ -90,6 +110,7 @@ def time_stats(df, all_month, all_day):
     """Displays statistics on the most frequent times of travel."""
 
     print('\nCalculating The Most Frequent Times of Travel...\n')
+    
     start_time = time.time()
     months = ['all', 'january', 'february', 'march', 'april', 'may', 'june']
     
@@ -115,7 +136,7 @@ def time_stats(df, all_month, all_day):
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
-"""
+
 def station_stats(df):
     # Displays statistics on the most popular stations and trip.
 
@@ -123,18 +144,21 @@ def station_stats(df):
     start_time = time.time()
 
     # display most commonly used start station
-
+    start_station = df['Start Station'].mode()[0]
+    print(f'The most commonly used start station is {start_station}. \n')
 
     # display most commonly used end station
-
+    end_station = df['End Station'].mode()[0]
+    print(f'The most commonly used end station is {end_station}. \n')
 
     # display most frequent combination of start station and end station trip
-
+    combo_station = df.groupby(['Start Station', 'End Station']).size().idxmax()
+    print(f'The most frequent combination of start and end stations is {combo_station[0]} and {combo_station[1]}. \n')
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
-
+"""
 def trip_duration_stats(df):
     # Displays statistics on the total and average trip duration.
 
